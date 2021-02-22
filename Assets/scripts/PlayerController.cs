@@ -23,18 +23,22 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (Input.GetKey(KeyCode.Space))
-            transform.Translate(Vector3.up * Time.deltaTime * speed * verticalInput);
-        if (Input.GetKey(KeyCode.R))
-            transform.Rotate(0, 0, 0);
+            transform.Translate(Vector3.up * Time.deltaTime * speed);
+        
+        if (Input.GetKeyUp(KeyCode.R))
+            transform.Rotate(90, 0, 0);
 
         //allow player to control object with userinput
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         // move car based on speed variable and user input
+        
         transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
         transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
+        
         // turn car based on speed variable and user input
         //transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
+        
         float mxVal = Input.GetAxis("Mouse X");
         float myVal = Input.GetAxis("Mouse Y");
         if (mxVal > 0)
