@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         //transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
         
         float mxVal = Input.GetAxis("Mouse X");
-        float myVal = Input.GetAxis("Mouse Y");
+       
         if (mxVal > 0)
             transform.Rotate(0f, 1f, 0f);
         if (mxVal < 0)
