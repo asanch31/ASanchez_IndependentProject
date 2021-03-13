@@ -5,12 +5,18 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameConditions : MonoBehaviour
+
+    //script where game is managed and controlled
+    // player has to find keys(rock samples) and safely leave
+    // player has health and can be damaged by enemies and asteroids
 {
     //collect items and finish and health variables
     private int key;
     private int finish;
     public int health;
+    int rockSamples;
     public TextMeshProUGUI healthText;
+    public TextMeshProUGUI FindText;
     public GameObject findKey;
     public GameObject foundKey;
     public GameObject Lose;
@@ -22,14 +28,17 @@ public class GameConditions : MonoBehaviour
     {
         // Set the count to zero 
         key = 0;
+        rockSamples = 4;
         finish = 0;
+
+        
 
         FindKeyText();
         Health(); 
         //Foundfinish();
         // Set the text property of the Win Text UI to an empty string, making the 'You Win' (game over message) blank
 
-        findKey.SetActive(true);
+        //findKey.SetActive(true);
         Lose.SetActive(false);
         foundKey.SetActive(false);
         Win.SetActive(false);
@@ -41,14 +50,18 @@ public class GameConditions : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             // Add one to the score variable 'count'
+            rockSamples--;
             key = key + 1;
+            
 
             // Run the 'SetCountText()' function (see below)
             FindKeyText();
         }
-        if (other.gameObject.CompareTag("enemy"))
+        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
         {
-            health = health - 10;
+            //random damage 
+            int randomDMG = Random.Range(2, 8);
+            health = health - randomDMG;
             print("this is an enemy");
             Health();
             transform.Translate(Vector3.forward * -3);
@@ -73,8 +86,9 @@ public class GameConditions : MonoBehaviour
         if (key == 4)
         {
             // Set the text value of your 'winText'
+            FindText.text = "";
             foundKey.SetActive(true);
-            findKey.SetActive(false);
+            
             finish = finish + 1;
 
         }
@@ -82,7 +96,7 @@ public class GameConditions : MonoBehaviour
         else
         {
             foundKey.SetActive(false);
-
+            FindText.text = "Samples Left: " + rockSamples.ToString();
         }
 
     }
@@ -99,7 +113,8 @@ public class GameConditions : MonoBehaviour
         }
         else
         {
-            finishKey.SetActive(true);
+            
+            FindText.text = "Samples Left: " + health.ToString();
 
         }
     }

@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-
+//Gun script that keeps track of ammo amount and which bullet is equipped
 public class gun : MonoBehaviour
 {
     // Start is called before the first frame update
