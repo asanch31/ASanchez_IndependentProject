@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playerCamera : MonoBehaviour
 {
@@ -10,11 +8,11 @@ public class playerCamera : MonoBehaviour
     private Vector3 offset = new Vector3(0, 1, 4);
     public int cameravar = 0;
     // Start is called before the first frame update
-    
+
     void Start()
     {
 
-      
+
     }
 
     // Update is called once per frame
@@ -25,14 +23,14 @@ public class playerCamera : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.C))
         {
-            offset = new Vector3(0, 1, 4);
+            offset = new Vector3(0, 2, 4);
         }
 
-        if (Input.GetKeyUp(KeyCode.V))
+        else if (Input.GetKeyUp(KeyCode.V))
         {
-            offset = new Vector3(0, 0, 0);
+            offset = new Vector3(0, 1, 0);
         }
-       
+
 
 
 

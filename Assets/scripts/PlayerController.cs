@@ -1,9 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 public class PlayerController : MonoBehaviour
 {
+
+
+    //public GameManger gameManager;
+
     //intialize float to allow user control of car(object) speed.
     public float speed = 15f;
     //intialize float to allow user control of car(object) turnspeed
@@ -17,35 +20,39 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
 
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKey(KeyCode.Space))
+        {
             transform.Translate(Vector3.up * Time.deltaTime * speed);
-        
-        if (Input.GetKeyUp(KeyCode.R))
-            transform.Rotate(90, 0, 0);
+
+        }
 
         //allow player to control object with userinput
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        // move car based on speed variable and user input
-        
+
+
+        // move player based on speed variable and user input
         transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
         transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
-        
-        // turn car based on speed variable and user input
+
+        // turn player based on speed variable and user input
         //transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
-        
+
         float mxVal = Input.GetAxis("Mouse X");
-       
+
         if (mxVal > 0)
             transform.Rotate(0f, 1f, 0f);
         if (mxVal < 0)
             transform.Rotate(0f, -1f, 0f);
-       
-        
+
+
     }
 }
