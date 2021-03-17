@@ -64,7 +64,10 @@ public class GameConditions : MonoBehaviour
             health = health - randomDMG;
             print("this is an enemy");
             Health();
-            transform.Translate(Vector3.forward * -3);
+            if (other.gameObject.CompareTag("enemy"))
+            {
+                transform.Translate(Vector3.forward * -3);
+            }
             //gameManager.PositionPlayer();
         }
         if (other.gameObject.CompareTag("ship"))

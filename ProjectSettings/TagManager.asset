@@ -5,12 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - enemy
-  - Enemy
   - key
   - door
   - ammo
   - ship
   - bullet
+  - hazard
   layers:
   - Default
   - TransparentFX

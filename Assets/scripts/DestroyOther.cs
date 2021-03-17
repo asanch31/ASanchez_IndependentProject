@@ -1,16 +1,12 @@
 ﻿using UnityEngine;
 
+//invisble wall that destroys asteroids that spawn
 public class DestroyOther : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
-    {
-        if ((other.gameObject.CompareTag("Player")))
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * -2);
-        }
-        else
-        {
+    {   //if object touches ceilings, object destroyed
+        
             Destroy(other.gameObject);
-        }
+        
     }
 }
