@@ -124,7 +124,7 @@ public class GameConditions : MonoBehaviour
     void Health()
     {
         healthText.text = "Health: " + health.ToString();
-        if (health == 0)
+        if (health <= 0)
         {
             Lose.SetActive(true);   
 

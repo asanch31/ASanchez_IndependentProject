@@ -5,7 +5,8 @@ public class PlayerController : MonoBehaviour
 {
 
 
-    //public GameManger gameManager;
+    //add animation
+    private Animator animPlayer;
 
     //intialize float to allow user control of car(object) speed.
     public float speed = 15f;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        animPlayer = GetComponent<Animator>();
 
 
     }
@@ -27,7 +28,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //if spacebar is pressed character jumps up
         if (Input.GetKey(KeyCode.Space))
         {
             transform.Translate(Vector3.up * Time.deltaTime * speed);
@@ -49,10 +50,15 @@ public class PlayerController : MonoBehaviour
         float mxVal = Input.GetAxis("Mouse X");
 
         if (mxVal > 0)
-            transform.Rotate(0f, 1f, 0f);
+            transform.Rotate(0f, .9f, 0f);
         if (mxVal < 0)
-            transform.Rotate(0f, -1f, 0f);
+            transform.Rotate(0f, -.9f, 0f);
 
+        float myVal = Input.GetAxis("Mouse Y");
 
+        if (myVal > 0)
+            transform.Rotate(0f, 0f, .9f);
+        if (myVal < 0)
+            transform.Rotate(0f, 0f, -.9f);
     }
 }
