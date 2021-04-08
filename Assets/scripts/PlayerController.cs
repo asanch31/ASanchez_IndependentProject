@@ -3,62 +3,117 @@
 
 public class PlayerController : MonoBehaviour
 {
+    private GameConditions playerCtrl;
 
 
-    //add animation
+    private bool onGround = true;
+    public bool gameOver = false;
+    public float jumpForce = 10;
+
+    private Rigidbody rbPlayer;
     private Animator animPlayer;
+    private CharacterController controller;
 
-    //intialize float to allow user control of car(object) speed.
-    public float speed = 15f;
-    //intialize float to allow user control of car(object) turnspeed
-    public float turnSpeed = 20f;
+    
+    public ParticleSystem dirtSystem;
+    public ParticleSystem jetsSystem;
 
-    //allow player to control object with userinput
-    private float horizontalInput;
-    private float verticalInput;
+    public AudioClip jumpSound;
+    
 
-    // Start is called before the first frame update
+    private AudioSource asPlayer;
+
+    float verticalInput;
+    public float speed = 600.0f;
+    public float turnSpeed = 400.0f;
+    
+    public float gravity = 20.0f;
+
     void Start()
     {
-        animPlayer = GetComponent<Animator>();
+        playerCtrl = GameObject.Find("Player").GetComponent<GameConditions>();
+        asPlayer = GetComponent<AudioSource>();
 
-
+        animPlayer = gameObject.GetComponentInChildren<Animator>();
+        rbPlayer = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //if spacebar is pressed character jumps up
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) && onGround ==true && playerCtrl.gameOver == false)
         {
-            transform.Translate(Vector3.up * Time.deltaTime * speed);
+            
+            animPlayer.SetInteger("jump", 1);
+            rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            onGround = false;
+            jetsSystem.Play();
+            asPlayer.PlayOneShot(jumpSound, 1.0f);
+
+            animPlayer.SetBool("ground_b", false);
+            
+        }
+         verticalInput = Input.GetAxis("Vertical");
+        if (verticalInput!=0 && playerCtrl.gameOver == false)
+        {
+            animPlayer.SetInteger("walk", 1);
+            
+
+
+
+        }
+        else if (verticalInput == 0 && playerCtrl.gameOver == false)
+        {
+            animPlayer.SetInteger("walk", 0);
+
+            //play dirt particle when running
+            dirtSystem.Play();
+        }
+        else if (playerCtrl.gameOver == true)
+        {
+            animPlayer.SetBool("death", true);
+            dirtSystem.Stop();
 
         }
 
-        //allow player to control object with userinput
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
 
+        if (onGround == true && playerCtrl.gameOver ==false)
+        {
+            
+            transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
+            animPlayer.SetInteger("jump", 0);
+            
+        }
 
-        // move player based on speed variable and user input
-        transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
-        transform.Translate(Vector3.right * Time.deltaTime * turnSpeed * horizontalInput);
-
-        // turn player based on speed variable and user input
-        //transform.Rotate(Vector3.up * Time.deltaTime * turnSpeed * horizontalInput);
-
-        float mxVal = Input.GetAxis("Mouse X");
-
-        if (mxVal > 0)
-            transform.Rotate(0f, .9f, 0f);
-        if (mxVal < 0)
-            transform.Rotate(0f, -.9f, 0f);
-
-        float myVal = Input.GetAxis("Mouse Y");
-
-        if (myVal > 0)
-            transform.Rotate(0f, 0f, .9f);
-        if (myVal < 0)
-            transform.Rotate(0f, 0f, -.9f);
+        if (playerCtrl.gameOver == false)
+        {
+            float turn = Input.GetAxis("Horizontal");
+            transform.Rotate(0, turn * turnSpeed * Time.deltaTime, 0);
+        }
     }
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            animPlayer.SetBool("ground_b", true);
+            asPlayer.Stop();
+            onGround = true;
+            
+        }
+        /*else if (collision.gameObject.CompareTag("obstacle"))
+        {
+            Debug.Log("Game Over!");
+            gameOver = true;
+            animPlayer.SetBool("Death_b", true);
+            animPlayer.SetInteger("DeathType_int", 1);
+            explosionSystem.Play();
+            dirtSystem.Stop();
+            asPlayer.PlayOneShot(crashSound, 1.0f);
+        }
+        */
+    }
+
+
 }

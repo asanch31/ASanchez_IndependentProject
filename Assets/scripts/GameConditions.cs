@@ -23,6 +23,14 @@ public class GameConditions : MonoBehaviour
     public GameObject Win;
     public GameObject finishKey;
 
+    public bool gameOver = false;
+
+    public ParticleSystem damagePSystem;
+
+    private AudioSource asPlayer;
+    public AudioClip damageSound;
+    public AudioClip deathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +42,11 @@ public class GameConditions : MonoBehaviour
         
 
         FindKeyText();
-        Health(); 
+        Health();
         //Foundfinish();
+
+        asPlayer = GetComponent<AudioSource>();
+
         // Set the text property of the Win Text UI to an empty string, making the 'You Win' (game over message) blank
 
         //findKey.SetActive(true);
@@ -67,6 +78,7 @@ public class GameConditions : MonoBehaviour
             if (other.gameObject.CompareTag("enemy"))
             {
                 transform.Translate(Vector3.forward * -3);
+                asPlayer.PlayOneShot(damageSound, 1.0f);
             }
             //gameManager.PositionPlayer();
         }
@@ -126,8 +138,10 @@ public class GameConditions : MonoBehaviour
         healthText.text = "Health: " + health.ToString();
         if (health <= 0)
         {
-            Lose.SetActive(true);   
-
+            asPlayer.PlayOneShot(deathSound, 1.0f);
+            Lose.SetActive(true);
+            gameOver = true;
+          
         }
     }
 
