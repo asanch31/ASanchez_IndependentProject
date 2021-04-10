@@ -3,6 +3,8 @@
 public class asteroidRandom : MonoBehaviour
 
 {
+
+    //spawn asteroids over the map in random locations
     public GameObject[] asteroidPrefab;
     private float SpawnX = 50;
     private float SpawnZ = 50;
@@ -25,6 +27,8 @@ public class asteroidRandom : MonoBehaviour
         Vector3 randPos = new Vector3(randomXspawn, 20, randomZspawn);
         GameObject asteroid = Instantiate(asteroidPrefab[asteroidPrefabIndex], randPos, asteroidPrefab[asteroidPrefabIndex].transform.rotation);
     }
+
+    //when asteroid collides with other objects asteroid is destroyed
     private void OnTriggerEnter(Collider other)
     {
 

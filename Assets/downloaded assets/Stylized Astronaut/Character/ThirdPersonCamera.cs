@@ -6,7 +6,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public GameObject player;
     // offset camera from player position (third person view)
 
-    public int cameravar = 0;
+    
     Vector3 offset = new Vector3(0, 1, 0);
 
     //third person script variables (taken from unity script third person camera
@@ -17,15 +17,13 @@ public class ThirdPersonCamera : MonoBehaviour
     public Transform camTransform;
     public float distance = 5.0f;
 
+    //camera angle in third person view
     private float currentX = 0.0f;
     private float currentY = 29.0f;
-    private float sensitivityX = 15.0f;
-    private float sensitivityY = 15.0f;
-
-    //
+    
 
     //is third person camera on
-    private bool thirdpov = true;
+    private bool thirdpov = false;
 
 
     // Start is called before the first frame update
@@ -63,15 +61,15 @@ public class ThirdPersonCamera : MonoBehaviour
 
         }
 
-
+        //if "c" is pressed switch to third person
         if (Input.GetKeyUp(KeyCode.C))
         {
-            print(" print c");
+            
             thirdpov = true;
 
         }
 
-        //first person camera
+        //first person camera id "v" is pressed
         else if (Input.GetKeyUp(KeyCode.V))
 
         {

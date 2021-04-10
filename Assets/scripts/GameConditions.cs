@@ -21,11 +21,21 @@ public class GameConditions : MonoBehaviour
     public GameObject foundKey;
     public GameObject Lose;
     public GameObject Win;
-    public GameObject finishKey;
+
+    public bool winCondition=false;
+
+    public GameObject ship;
+
+
+    //add finishing element not implemented yet
+   // public GameObject finishKey;
 
     public bool gameOver = false;
 
     public ParticleSystem damagePSystem;
+    public ParticleSystem deathPSystem;
+    public ParticleSystem shipjets;
+
 
     private AudioSource asPlayer;
     public AudioClip damageSound;
@@ -34,7 +44,7 @@ public class GameConditions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Set the count to zero 
+        // Set the objectives 
         key = 0;
         rockSamples = 4;
         finish = 0;
@@ -43,7 +53,7 @@ public class GameConditions : MonoBehaviour
 
         FindKeyText();
         Health();
-        //Foundfinish();
+        
 
         asPlayer = GetComponent<AudioSource>();
 
@@ -57,10 +67,11 @@ public class GameConditions : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        //player interacts with key/rocks
         if (other.gameObject.CompareTag("key"))
         {
             other.gameObject.SetActive(false);
-            // Add one to the score variable 'count'
+            // Add one to the score variable 'rocksamples'
             rockSamples--;
             key = key + 1;
             
@@ -68,19 +79,23 @@ public class GameConditions : MonoBehaviour
             // Run the 'SetCountText()' function (see below)
             FindKeyText();
         }
+
+        //player interaction with ememy or hazards
         if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
         {
-            //random damage 
+            //random damage occurs when player touches enemy/hazard
+            damagePSystem.Play();
             int randomDMG = Random.Range(2, 8);
-            health = health - randomDMG;
-            print("this is an enemy");
+            health = health - randomDMG; 
             Health();
+            
+            //player jumps(moves) backwards to avoid constant damage (damage sound plays)
             if (other.gameObject.CompareTag("enemy"))
             {
                 transform.Translate(Vector3.forward * -3);
                 asPlayer.PlayOneShot(damageSound, 1.0f);
             }
-            //gameManager.PositionPlayer();
+            //gameManager.PositionPlayer();   respawn player not implemented
         }
         if (other.gameObject.CompareTag("ship"))
         {
@@ -91,7 +106,7 @@ public class GameConditions : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
 
-        finishKey.SetActive(false);
+        //finishKey.SetActive(false);  not implemented
 
 
     }
@@ -100,7 +115,7 @@ public class GameConditions : MonoBehaviour
 
         if (key == 4)
         {
-            // Set the text value of your 'winText'
+            // if found all objective play text message
             FindText.text = "";
             foundKey.SetActive(true);
             
@@ -108,6 +123,7 @@ public class GameConditions : MonoBehaviour
 
         }
 
+        //else display objective (find rock samples)
         else
         {
             foundKey.SetActive(false);
@@ -117,15 +133,22 @@ public class GameConditions : MonoBehaviour
     }
     void FoundFinish()
     {
-
+        // if found objectives (keys) and health >0 toggle win trigger
         if (key > 3 && health > 0)
         {
 
             Win.SetActive(true);
             foundKey.SetActive(false);
+            shipjets.Play();
+            winCondition = true;
+            
+
+            //
             //gameManager.Level1();
             //SceneManager.LoadScene(1);
         }
+
+        //else display objectives and health status
         else
         {
             
@@ -133,11 +156,16 @@ public class GameConditions : MonoBehaviour
 
         }
     }
+
+    //health: does player have health
+    //Yes: Game continues
+    //No: player is Dead (play sound effect)
     void Health()
     {
         healthText.text = "Health: " + health.ToString();
         if (health <= 0)
         {
+            deathPSystem.Play();
             asPlayer.PlayOneShot(deathSound, 1.0f);
             Lose.SetActive(true);
             gameOver = true;

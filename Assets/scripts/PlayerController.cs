@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     
     public ParticleSystem dirtSystem;
     public ParticleSystem jetsSystem;
+    
+
 
     public AudioClip jumpSound;
     
@@ -40,12 +42,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //if space is pressed player jumps including sounds and animations
         if (Input.GetKeyUp(KeyCode.Space) && onGround ==true && playerCtrl.gameOver == false)
         {
             
             animPlayer.SetInteger("jump", 1);
             rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             onGround = false;
+            dirtSystem.Stop();
             jetsSystem.Play();
             asPlayer.PlayOneShot(jumpSound, 1.0f);
 
@@ -53,6 +57,8 @@ public class PlayerController : MonoBehaviour
             
         }
          verticalInput = Input.GetAxis("Vertical");
+
+        //if player is pressing forward than character will move and play walk animation
         if (verticalInput!=0 && playerCtrl.gameOver == false)
         {
             animPlayer.SetInteger("walk", 1);
@@ -61,13 +67,24 @@ public class PlayerController : MonoBehaviour
 
 
         }
+
+        //if player is standing still character will stay in idle animation
         else if (verticalInput == 0 && playerCtrl.gameOver == false)
         {
             animPlayer.SetInteger("walk", 0);
 
             //play dirt particle when running
-            dirtSystem.Play();
+            if (onGround == true)
+            {
+                dirtSystem.Play();
+            }
+            else
+            {
+                dirtSystem.Stop();
+            }
         }
+
+        //if player dies or game ends particle system("dirt") stops and so does player
         else if (playerCtrl.gameOver == true)
         {
             animPlayer.SetBool("death", true);
@@ -75,15 +92,19 @@ public class PlayerController : MonoBehaviour
 
         }
 
-
-        if (onGround == true && playerCtrl.gameOver ==false)
+        //player can move if game hasn't ended
+        if (playerCtrl.gameOver ==false)
         {
-            
+            //allow for movement in air (jump forward)
             transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
-            animPlayer.SetInteger("jump", 0);
-            
-        }
 
+            //when player touces ground signals to stop jumping animation
+            if (onGround == true)
+            {
+                animPlayer.SetInteger("jump", 0);
+            }
+        }
+        //player can rotate when alive
         if (playerCtrl.gameOver == false)
         {
             float turn = Input.GetAxis("Horizontal");
@@ -95,6 +116,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //when player touches ground 
         if (collision.gameObject.CompareTag("ground"))
         {
             animPlayer.SetBool("ground_b", true);
@@ -102,6 +124,8 @@ public class PlayerController : MonoBehaviour
             onGround = true;
             
         }
+
+
         /*else if (collision.gameObject.CompareTag("obstacle"))
         {
             Debug.Log("Game Over!");
