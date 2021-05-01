@@ -12,6 +12,8 @@ TagManager:
   - bullet
   - hazard
   - ground
+  - Death
+  - bullet2
   layers:
   - Default
   - TransparentFX
@@ -22,9 +24,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
+  - Player
+  - Section1ground
+  - Section 2Ground
   - 
   - 
   - 
