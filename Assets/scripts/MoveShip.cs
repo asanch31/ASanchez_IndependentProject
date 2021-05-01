@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MoveShip : MonoBehaviour
 {
     private GameConditions Win;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,9 +16,9 @@ public class MoveShip : MonoBehaviour
     {
         if (Win.winCondition == true)
         {
-            
+
             transform.Translate(Vector3.forward * Time.deltaTime);
-            
+
         }
     }
 }

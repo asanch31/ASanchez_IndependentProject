@@ -5,16 +5,20 @@ using UnityEngine;
 public class gun : MonoBehaviour
 {
     
+
+
     public float bulletSpeed = 10;
     public Rigidbody[] bulletPrefab;
     int bulletIndex = 0;
-    public int ammo = 5;
+    public int ammo = 25;
     public TextMeshProUGUI ammoText;
 
     private AudioSource gunAudio;
     public AudioClip[] ShotSound;
     public AudioClip emptyAmmo;
-   
+
+    public int dmg = 1;
+    public int dmg2 = 2;
 
     void Start()
     {
@@ -38,13 +42,13 @@ public class gun : MonoBehaviour
         if (ammo > 0)
         {
             Rigidbody bullet = Instantiate(bulletPrefab[bulletIndex], transform.position + (transform.forward) + (transform.up), Quaternion.identity);
-            
+
             bullet.velocity = transform.forward * bulletSpeed;
             gunAudio.PlayOneShot(ShotSound[bulletIndex], 1.0f);
 
             //Destroy bullet after 3 secs.
             Destroy(bullet.gameObject, 3f);
-            
+
             ammo--;
             amountAmmo();
         }
@@ -52,7 +56,7 @@ public class gun : MonoBehaviour
         else
         {
             gunAudio.PlayOneShot(emptyAmmo, 1.0f);
-           
+
         }
     }
 
@@ -63,10 +67,11 @@ public class gun : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             // Add one to the score variable 'count'
-            ammo = ammo + 50;
+            int ammoBox = Random.Range(25, 100);
+            ammo = ammo + ammoBox;
 
             //max ammo is 200
-            if( ammo> 200)
+            if (ammo > 200)
             {
                 ammo = 200;
             }

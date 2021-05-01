@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
 
 public class GameConditions : MonoBehaviour
 
-    //script where game is managed and controlled
-    // player has to find keys(rock samples) and safely leave
-    // player has health and can be damaged by enemies and asteroids
+//script where game is managed and controlled
+// player has to find keys(rock samples) and safely leave
+// player has health and can be damaged by enemies and asteroids
 {
     //collect items and finish and health variables
     private int key;
     private int finish;
     public int health;
-    int rockSamples;
+    public int rockSamples=4;
+    
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI FindText;
     public GameObject findKey;
@@ -22,13 +20,13 @@ public class GameConditions : MonoBehaviour
     public GameObject Lose;
     public GameObject Win;
 
-    public bool winCondition=false;
+    public bool winCondition = false;
 
     public GameObject ship;
 
 
     //add finishing element not implemented yet
-   // public GameObject finishKey;
+    // public GameObject finishKey;
 
     public bool gameOver = false;
 
@@ -45,15 +43,15 @@ public class GameConditions : MonoBehaviour
     void Start()
     {
         // Set the objectives 
-        key = 0;
+        
         rockSamples = 4;
         finish = 0;
 
-        
+
 
         FindKeyText();
         Health();
-        
+
 
         asPlayer = GetComponent<AudioSource>();
 
@@ -63,7 +61,7 @@ public class GameConditions : MonoBehaviour
         Lose.SetActive(false);
         foundKey.SetActive(false);
         Win.SetActive(false);
-        
+
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -73,28 +71,34 @@ public class GameConditions : MonoBehaviour
             other.gameObject.SetActive(false);
             // Add one to the score variable 'rocksamples'
             rockSamples--;
-            key = key + 1;
             
+
 
             // Run the 'SetCountText()' function (see below)
             FindKeyText();
         }
+        if (other.gameObject.CompareTag("Death"))
+        {
 
-        //player interaction with ememy or hazards
-        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
+            health = 0;
+            Health();
+        }
+            //player interaction with ememy or hazards
+            if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
         {
             //random damage occurs when player touches enemy/hazard
             damagePSystem.Play();
             int randomDMG = Random.Range(2, 8);
-            health = health - randomDMG; 
+            health = health - randomDMG;
             Health();
-            
+
             //player jumps(moves) backwards to avoid constant damage (damage sound plays)
             if (other.gameObject.CompareTag("enemy"))
             {
                 transform.Translate(Vector3.forward * -3);
                 asPlayer.PlayOneShot(damageSound, 1.0f);
             }
+
             //gameManager.PositionPlayer();   respawn player not implemented
         }
         if (other.gameObject.CompareTag("ship"))
@@ -113,12 +117,12 @@ public class GameConditions : MonoBehaviour
     void FindKeyText()
     {
 
-        if (key == 4)
+        if (rockSamples==0)
         {
             // if found all objective play text message
             FindText.text = "";
             foundKey.SetActive(true);
-            
+
             finish = finish + 1;
 
         }
@@ -134,25 +138,25 @@ public class GameConditions : MonoBehaviour
     void FoundFinish()
     {
         // if found objectives (keys) and health >0 toggle win trigger
-        if (key > 3 && health > 0)
+        if (rockSamples == 0 && health > 0)
         {
 
             Win.SetActive(true);
             foundKey.SetActive(false);
             shipjets.Play();
             winCondition = true;
-            
+
 
             //
             //gameManager.Level1();
             //SceneManager.LoadScene(1);
         }
 
-        //else display objectives and health status
+        //else display objectives left
         else
         {
-            
-            FindText.text = "Samples Left: " + health.ToString();
+
+            FindText.text = "Samples Left: " + rockSamples.ToString();
 
         }
     }
@@ -169,7 +173,7 @@ public class GameConditions : MonoBehaviour
             asPlayer.PlayOneShot(deathSound, 1.0f);
             Lose.SetActive(true);
             gameOver = true;
-          
+
         }
     }
 

@@ -13,10 +13,6 @@ public class CollisionDetect : MonoBehaviour
         {
             transform.Translate(Vector3.forward * Time.deltaTime * -2);
         }
-        else if((other.gameObject.CompareTag("bullet")))
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
+        
     }
 }

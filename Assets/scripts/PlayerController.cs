@@ -12,23 +12,25 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rbPlayer;
     private Animator animPlayer;
-    private CharacterController controller;
+    //private CharacterController controller;
 
-    
+
     public ParticleSystem dirtSystem;
     public ParticleSystem jetsSystem;
-    
+
 
 
     public AudioClip jumpSound;
-    
+
 
     private AudioSource asPlayer;
 
     float verticalInput;
+    
+
     public float speed = 600.0f;
     public float turnSpeed = 400.0f;
-    
+
     public float gravity = 20.0f;
 
     void Start()
@@ -43,9 +45,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //if space is pressed player jumps including sounds and animations
-        if (Input.GetKeyUp(KeyCode.Space) && onGround ==true && playerCtrl.gameOver == false)
+        if (Input.GetKeyUp(KeyCode.Space) && onGround == true && playerCtrl.gameOver == false)
         {
-            
+
             animPlayer.SetInteger("jump", 1);
             rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             onGround = false;
@@ -54,17 +56,15 @@ public class PlayerController : MonoBehaviour
             asPlayer.PlayOneShot(jumpSound, 1.0f);
 
             animPlayer.SetBool("ground_b", false);
-            
+
         }
-         verticalInput = Input.GetAxis("Vertical");
+        verticalInput = Input.GetAxis("Vertical");
+        
 
         //if player is pressing forward than character will move and play walk animation
-        if (verticalInput!=0 && playerCtrl.gameOver == false)
+        if (verticalInput != 0 && playerCtrl.gameOver == false)
         {
             animPlayer.SetInteger("walk", 1);
-            
-
-
 
         }
 
@@ -93,10 +93,11 @@ public class PlayerController : MonoBehaviour
         }
 
         //player can move if game hasn't ended
-        if (playerCtrl.gameOver ==false)
+        if (playerCtrl.gameOver == false)
         {
             //allow for movement in air (jump forward)
             transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
+           
 
             //when player touces ground signals to stop jumping animation
             if (onGround == true)
@@ -109,6 +110,7 @@ public class PlayerController : MonoBehaviour
         {
             float turn = Input.GetAxis("Horizontal");
             transform.Rotate(0, turn * turnSpeed * Time.deltaTime, 0);
+
         }
     }
 
@@ -122,7 +124,7 @@ public class PlayerController : MonoBehaviour
             animPlayer.SetBool("ground_b", true);
             asPlayer.Stop();
             onGround = true;
-            
+
         }
 
 
