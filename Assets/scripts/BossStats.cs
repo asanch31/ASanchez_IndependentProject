@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class enemyStats : MonoBehaviour
+public class BossStats : MonoBehaviour
 {
     private gun damage;
-    private GameConditions difficulty;
+    private SpawnManager difficulty;
+    private int minionCount;
 
-    private int hiDif = 4;
+    private int hiDif = 0;
+    private int waveNum = 0;
 
 
-    public int health = 3;
+    public int health = 1000;
 
     private Animator animEnemy;
     public bool dead = false;
@@ -19,7 +21,7 @@ public class enemyStats : MonoBehaviour
     {
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
-        difficulty = GameObject.Find("Player").GetComponent<GameConditions>();
+        difficulty = GameObject.Find("Boss").GetComponent<SpawnManager>();
         animEnemy = gameObject.GetComponentInChildren<Animator>();
 
 
@@ -30,9 +32,11 @@ public class enemyStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hiDif != difficulty.rockSamples)
+        minionCount = FindObjectsOfType<MinionStats>().Length;
+
+        if (minionCount < difficulty.maxWaves && waveNum != difficulty.maxWaves)
         {
-            BiggerHealth();
+            LoseHealth();
         }
 
     }
@@ -63,18 +67,15 @@ public class enemyStats : MonoBehaviour
 
     }
 
-    void BiggerHealth()
+    void LoseHealth()
     {
-        hiDif--;
+        waveNum++;
+        if (minionCount == 0)
+        {
+            health = health - 300;
+            Health();
+        }
 
-        if (hiDif == 3 || hiDif == 2)
-        {
-            health = health + 3;
-        }
-        if (hiDif == 1)
-        {
-            health = health + 5;
-        }
 
     }
     void Health()
@@ -94,9 +95,8 @@ public class enemyStats : MonoBehaviour
     }
     IEnumerator DeathAnim()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         Destroy(gameObject);
 
     }
-
 }

@@ -13,6 +13,6 @@ public class CollisionDetect : MonoBehaviour
         {
             transform.Translate(Vector3.forward * Time.deltaTime * -2);
         }
-        
+
     }
 }

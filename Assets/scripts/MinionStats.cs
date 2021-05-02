@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class enemyStats : MonoBehaviour
+public class MinionStats : MonoBehaviour
 {
     private gun damage;
-    private GameConditions difficulty;
-
-    private int hiDif = 4;
 
 
-    public int health = 3;
+
+    public int health = 1;
 
     private Animator animEnemy;
     public bool dead = false;
@@ -19,7 +17,7 @@ public class enemyStats : MonoBehaviour
     {
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
-        difficulty = GameObject.Find("Player").GetComponent<GameConditions>();
+
         animEnemy = gameObject.GetComponentInChildren<Animator>();
 
 
@@ -30,10 +28,7 @@ public class enemyStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hiDif != difficulty.rockSamples)
-        {
-            BiggerHealth();
-        }
+
 
     }
 
@@ -65,16 +60,7 @@ public class enemyStats : MonoBehaviour
 
     void BiggerHealth()
     {
-        hiDif--;
 
-        if (hiDif == 3 || hiDif == 2)
-        {
-            health = health + 3;
-        }
-        if (hiDif == 1)
-        {
-            health = health + 5;
-        }
 
     }
     void Health()
@@ -98,5 +84,6 @@ public class enemyStats : MonoBehaviour
         Destroy(gameObject);
 
     }
+
 
 }

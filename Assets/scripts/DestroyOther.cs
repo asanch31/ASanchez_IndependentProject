@@ -14,13 +14,13 @@ public class DestroyOther : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {   //if object touches ceilings, object destroyed
 
-        
+
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("bullet") || other.gameObject.CompareTag("bullet2"))
         {
         }
 
-        
-        else 
+
+        else
         {
             Destroy(other.gameObject);
         }

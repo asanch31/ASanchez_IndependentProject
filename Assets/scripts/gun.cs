@@ -1,10 +1,11 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 //Gun script that keeps track of ammo amount and which bullet is equipped
 public class gun : MonoBehaviour
 {
-    
+
 
 
     public float bulletSpeed = 10;
@@ -19,6 +20,10 @@ public class gun : MonoBehaviour
 
     public int dmg = 1;
     public int dmg2 = 2;
+
+    //powerup var
+    public GameObject powerIndicator;
+    bool hasPowerUp = false;
 
     void Start()
     {
@@ -59,9 +64,30 @@ public class gun : MonoBehaviour
 
         }
     }
+    IEnumerator PowerUpCountdown()
+    {
+        yield return new WaitForSeconds(60);
+
+        hasPowerUp = false;
+        powerIndicator.SetActive(false);
+    }
+
 
     private void OnTriggerExit(Collider other)
     {
+
+        if (other.CompareTag("dmgBuff"))
+        {
+            hasPowerUp = true;
+            dmg = 3;
+            dmg2 = 5;
+            Destroy(other.gameObject);
+
+            powerIndicator.SetActive(true);
+
+            StartCoroutine(PowerUpCountdown());
+
+        }
         //if player interacts with ammo box increase ammo by 50
         if ((other.gameObject.CompareTag("ammo")))
         {

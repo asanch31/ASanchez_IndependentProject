@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class GameConditions : MonoBehaviour
@@ -11,8 +12,8 @@ public class GameConditions : MonoBehaviour
     private int key;
     private int finish;
     public int health;
-    public int rockSamples=4;
-    
+    public int rockSamples = 4;
+
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI FindText;
     public GameObject findKey;
@@ -39,11 +40,15 @@ public class GameConditions : MonoBehaviour
     public AudioClip damageSound;
     public AudioClip deathSound;
 
+    //powerup var
+    public GameObject powerIndicator;
+    bool hasPowerUp = false;
+
     // Start is called before the first frame update
     void Start()
     {
         // Set the objectives 
-        
+
         rockSamples = 4;
         finish = 0;
 
@@ -63,15 +68,36 @@ public class GameConditions : MonoBehaviour
         Win.SetActive(false);
 
     }
+    IEnumerator PowerUpCountdown()
+    {
+        yield return new WaitForSeconds(60);
+        print(health);
+        hasPowerUp = false;
+        powerIndicator.SetActive(false);
+        health = health - 30;
+    }
     private void OnTriggerEnter(Collider other)
     {
+
+        if (other.CompareTag("health"))
+        {
+            hasPowerUp = true;
+            Destroy(other.gameObject);
+
+            powerIndicator.SetActive(true);
+            health = health + 30;
+            Health();
+
+            StartCoroutine(PowerUpCountdown());
+
+        }
         //player interacts with key/rocks
         if (other.gameObject.CompareTag("key"))
         {
             other.gameObject.SetActive(false);
             // Add one to the score variable 'rocksamples'
             rockSamples--;
-            
+
 
 
             // Run the 'SetCountText()' function (see below)
@@ -83,8 +109,8 @@ public class GameConditions : MonoBehaviour
             health = 0;
             Health();
         }
-            //player interaction with ememy or hazards
-            if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
+        //player interaction with ememy or hazards
+        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
         {
             //random damage occurs when player touches enemy/hazard
             damagePSystem.Play();
@@ -117,7 +143,7 @@ public class GameConditions : MonoBehaviour
     void FindKeyText()
     {
 
-        if (rockSamples==0)
+        if (rockSamples == 0)
         {
             // if found all objective play text message
             FindText.text = "";
@@ -177,9 +203,11 @@ public class GameConditions : MonoBehaviour
         }
     }
 
+
     // Update is called once per frame
     void Update()
     {
 
     }
+
 }

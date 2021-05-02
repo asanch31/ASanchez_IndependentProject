@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private AudioSource asPlayer;
 
     float verticalInput;
-    
+
 
     public float speed = 600.0f;
     public float turnSpeed = 400.0f;
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
         }
         verticalInput = Input.GetAxis("Vertical");
-        
+
 
         //if player is pressing forward than character will move and play walk animation
         if (verticalInput != 0 && playerCtrl.gameOver == false)
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         {
             //allow for movement in air (jump forward)
             transform.Translate(Vector3.forward * Time.deltaTime * speed * verticalInput);
-           
+
 
             //when player touces ground signals to stop jumping animation
             if (onGround == true)

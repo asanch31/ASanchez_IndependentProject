@@ -48,16 +48,16 @@ public class playerCamera : MonoBehaviour
         //switch too third person camera
         if (thirdpov == true)
         {
-            currentX += Input.GetAxis("Horizontal")+Input.GetAxis("Mouse X") * turnspeed;
-            
+            currentX += Input.GetAxis("Horizontal") + Input.GetAxis("Mouse X") * turnspeed;
+
             currentY += Input.GetAxis("Mouse Y");
-            
-            
+
+
             currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
         }
         if (thirdpov == false)
         {
-            
+
 
             currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
 
@@ -76,7 +76,7 @@ public class playerCamera : MonoBehaviour
 
         }
 
-        
+
 
     }
     private void LateUpdate()
