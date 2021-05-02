@@ -3,6 +3,8 @@
 
 public class PlayerController : MonoBehaviour
 {
+    private int minionCount;
+
     private GameConditions playerCtrl;
 
 
@@ -35,6 +37,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
+        minionCount = FindObjectsOfType<MinionStats>().Length;
+        print(minionCount);
         playerCtrl = GameObject.Find("Player").GetComponent<GameConditions>();
         asPlayer = GetComponent<AudioSource>();
 

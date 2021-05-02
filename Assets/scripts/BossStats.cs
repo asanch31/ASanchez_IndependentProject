@@ -7,14 +7,18 @@ public class BossStats : MonoBehaviour
     private SpawnManager difficulty;
     private int minionCount;
 
-    private int hiDif = 0;
     private int waveNum = 0;
 
 
-    public int health = 1000;
+    public int health=20;
 
     private Animator animEnemy;
     public bool dead = false;
+
+    private int healthBossMult;
+
+
+   
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +28,9 @@ public class BossStats : MonoBehaviour
         difficulty = GameObject.Find("Boss").GetComponent<SpawnManager>();
         animEnemy = gameObject.GetComponentInChildren<Animator>();
 
-
-
+       
+        healthBossMult = health;
+        health = healthBossMult * difficulty.maxWaves+ health;
     }
 
 
@@ -33,9 +38,12 @@ public class BossStats : MonoBehaviour
     void Update()
     {
         minionCount = FindObjectsOfType<MinionStats>().Length;
-
-        if (minionCount < difficulty.maxWaves && waveNum != difficulty.maxWaves)
+        
+        print(health);
+        
+        if (minionCount ==0 && waveNum != difficulty.maxWaves)
         {
+
             LoseHealth();
         }
 
@@ -70,11 +78,13 @@ public class BossStats : MonoBehaviour
     void LoseHealth()
     {
         waveNum++;
+        print(minionCount);
         if (minionCount == 0)
         {
-            health = health - 300;
+            health = health - healthBossMult;
             Health();
         }
+        
 
 
     }

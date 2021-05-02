@@ -15,6 +15,7 @@ public class MinionStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
 
