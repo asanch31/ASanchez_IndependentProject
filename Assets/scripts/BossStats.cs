@@ -39,7 +39,6 @@ public class BossStats : MonoBehaviour
     {
         minionCount = FindObjectsOfType<MinionStats>().Length;
         
-        print(health);
         
         if (minionCount ==0 && waveNum != difficulty.maxWaves)
         {
