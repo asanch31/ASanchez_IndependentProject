@@ -47,11 +47,13 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  timeBetweenAttacks: 2
+  timeBetweenAttacks: 4
   attackSpd: 7
-  sightRange: 15
+  sightRange: 25
   attackRange: 5
   playerInSight: 0
   playerInAttackRange: 0

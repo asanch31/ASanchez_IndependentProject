@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossStats : MonoBehaviour
 {
@@ -9,20 +10,21 @@ public class BossStats : MonoBehaviour
 
     private int waveNum = 0;
 
-
-    public int health=20;
+    private float fullHealth;
+    public float health=20;
 
     private Animator animEnemy;
     public bool dead = false;
 
-    private int healthBossMult;
+    private float healthBossMult;
 
+    public Image healthBar;
 
-   
 
     // Start is called before the first frame update
     void Start()
     {
+        
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
         difficulty = GameObject.Find("Boss").GetComponent<SpawnManager>();
@@ -31,6 +33,7 @@ public class BossStats : MonoBehaviour
        
         healthBossMult = health;
         health = healthBossMult * difficulty.maxWaves+ health;
+        fullHealth = health;
     }
 
 
@@ -77,7 +80,6 @@ public class BossStats : MonoBehaviour
     void LoseHealth()
     {
         waveNum++;
-        print(minionCount);
         if (minionCount == 0)
         {
             health = health - healthBossMult;
@@ -89,13 +91,13 @@ public class BossStats : MonoBehaviour
     }
     void Health()
     {
-        print("Enemy Health = " + health);
+        healthBar.fillAmount = health / fullHealth;
         if (health <= 0)
         {
             animEnemy.SetBool("death", true);
             dead = true;
 
-            print("enemy is dead " + dead);
+            
 
             StartCoroutine(DeathAnim());
 

@@ -92,7 +92,7 @@ public class enemyStats : MonoBehaviour
             animEnemy.SetBool("death", true);
             dead = true;
 
-            print("enemy is dead " + dead);
+            
 
             StartCoroutine(DeathAnim());
 
