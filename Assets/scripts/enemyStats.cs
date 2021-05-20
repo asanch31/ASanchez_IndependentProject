@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class enemyStats : MonoBehaviour
 {
@@ -7,16 +8,19 @@ public class enemyStats : MonoBehaviour
     private GameManager difficulty;
 
     private int hiDif = 4;
+    private float fullHealth;
 
-
-    public int health = 3;
+    public float health = 3;
 
     private Animator animEnemy;
     public bool dead = false;
 
+    public Image healthBar;
+
     // Start is called before the first frame update
     void Start()
     {
+        fullHealth = health;
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
         difficulty = GameObject.Find("Player").GetComponent<GameManager>();
@@ -70,16 +74,19 @@ public class enemyStats : MonoBehaviour
         if (hiDif == 3 || hiDif == 2)
         {
             health = health + 3;
+            fullHealth = fullHealth + 3;
         }
         if (hiDif == 1)
         {
             health = health + 5;
+            fullHealth = fullHealth + 5;
         }
+        Health();
 
     }
     void Health()
     {
-        print("Enemy Health = " + health);
+        healthBar.fillAmount = health / fullHealth;
         if (health <= 0)
         {
             animEnemy.SetBool("death", true);
