@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     private int minionCount;
 
-    private GameConditions playerCtrl;
+    private GameManager playerCtrl;
 
 
     private bool onGround = true;
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
         minionCount = FindObjectsOfType<MinionStats>().Length;
         print(minionCount);
-        playerCtrl = GameObject.Find("Player").GetComponent<GameConditions>();
+        playerCtrl = GameObject.Find("Player").GetComponent<GameManager>();
         asPlayer = GetComponent<AudioSource>();
 
         animPlayer = gameObject.GetComponentInChildren<Animator>();

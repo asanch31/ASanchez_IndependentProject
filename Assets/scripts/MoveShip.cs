@@ -2,13 +2,13 @@
 
 public class MoveShip : MonoBehaviour
 {
-    private GameConditions Win;
+    private GameManager Win;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Win = GameObject.Find("Player").GetComponent<GameConditions>();
+        Win = GameObject.Find("Player").GetComponent<GameManager>();
     }
 
     // Update is called once per frame

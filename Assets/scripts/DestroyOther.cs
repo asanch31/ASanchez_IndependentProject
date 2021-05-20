@@ -3,11 +3,11 @@
 //invisble wall that destroys asteroids that spawn
 public class DestroyOther : MonoBehaviour
 {
-    private GameConditions playerCtrl;
+    private GameManager playerCtrl;
 
     void Start()
     {
-        playerCtrl = GameObject.Find("Player").GetComponent<GameConditions>();
+        playerCtrl = GameObject.Find("Player").GetComponent<GameManager>();
     }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 public class enemyStats : MonoBehaviour
 {
     private gun damage;
-    private GameConditions difficulty;
+    private GameManager difficulty;
 
     private int hiDif = 4;
 
@@ -19,7 +19,7 @@ public class enemyStats : MonoBehaviour
     {
         dead = false;
         damage = GameObject.Find("Player").GetComponent<gun>();
-        difficulty = GameObject.Find("Player").GetComponent<GameConditions>();
+        difficulty = GameObject.Find("Player").GetComponent<GameManager>();
         animEnemy = gameObject.GetComponentInChildren<Animator>();
 
 
