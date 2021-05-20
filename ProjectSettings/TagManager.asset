@@ -18,6 +18,7 @@ TagManager:
   - Minion
   - health
   - dmgBuff
+  - Boss Projectile
   layers:
   - Default
   - TransparentFX

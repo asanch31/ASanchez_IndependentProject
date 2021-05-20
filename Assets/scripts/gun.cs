@@ -23,7 +23,8 @@ public class gun : MonoBehaviour
 
     //powerup var
     public GameObject powerIndicator;
-    bool hasPowerUp = false;
+    public GameObject dmgBuffUI;
+    
 
     void Start()
     {
@@ -68,8 +69,9 @@ public class gun : MonoBehaviour
     {
         yield return new WaitForSeconds(60);
 
-        hasPowerUp = false;
+        
         powerIndicator.SetActive(false);
+        dmgBuffUI.SetActive(false);
     }
 
 
@@ -78,7 +80,8 @@ public class gun : MonoBehaviour
 
         if (other.CompareTag("dmgBuff"))
         {
-            hasPowerUp = true;
+           
+            dmgBuffUI.SetActive(true);
             dmg = 3;
             dmg2 = 5;
             Destroy(other.gameObject);

@@ -18,8 +18,7 @@ public class enemyController : MonoBehaviour
 
     private float minTorque = -10f;
     private float maxTorque = 10f;
-    private float minForce = 10f;
-    private float maxForce = 15f;
+    
     public float heightAttack = 1;
     public float attackZpos = 1;
 

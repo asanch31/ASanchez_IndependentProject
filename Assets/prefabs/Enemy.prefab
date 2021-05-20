@@ -419,8 +419,10 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 512
-  projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
+  projectile: {fileID: 4679082972226261787, guid: 6eb0a5c3e97158547b432fcbaf17394e,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1.5
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2

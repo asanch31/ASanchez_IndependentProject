@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     {
 
         minionCount = FindObjectsOfType<MinionStats>().Length;
-        print(minionCount);
+        
         playerCtrl = GameObject.Find("Player").GetComponent<GameManager>();
         asPlayer = GetComponent<AudioSource>();
 
@@ -133,17 +133,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        /*else if (collision.gameObject.CompareTag("obstacle"))
-        {
-            Debug.Log("Game Over!");
-            gameOver = true;
-            animPlayer.SetBool("Death_b", true);
-            animPlayer.SetInteger("DeathType_int", 1);
-            explosionSystem.Play();
-            dirtSystem.Stop();
-            asPlayer.PlayOneShot(crashSound, 1.0f);
-        }
-        */
+        
     }
 
 

@@ -41,17 +41,17 @@ MonoBehaviour:
   player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 3072
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 512
-  projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
+  projectile: {fileID: 7328805586975292203, guid: 8f8cfa2c615553c4586e0b813526b8d1,
     type: 3}
-  heightAttack: 1
+  heightAttack: 1.3
   attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  timeBetweenAttacks: 4
+  timeBetweenAttacks: 2
   attackSpd: 7
   sightRange: 25
   attackRange: 5
@@ -106,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077356408, guid: c6cfc32748fb5004aa11a1be074b5c58, type: 3}
       propertyPath: m_TagString
-      value: Minion
+      value: enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1077356410, guid: c6cfc32748fb5004aa11a1be074b5c58, type: 3}
       propertyPath: m_RootOrder

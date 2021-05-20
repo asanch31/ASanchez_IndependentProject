@@ -425,7 +425,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 512
-  projectile: {fileID: 3740474874018372655, guid: b69f24750ec05174b9e8bc50d95b10c8,
+  projectile: {fileID: 8312444468202650860, guid: ea5f31d1d78b02a43bdff60e20af41aa,
     type: 3}
   heightAttack: 6
   attackZpos: 4

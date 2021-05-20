@@ -42,11 +42,13 @@ public class GameManager : MonoBehaviour
 
     //powerup var
     public GameObject powerIndicator;
-    bool hasPowerUp = false;
+    public GameObject healthBuffUI;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        
         // Set the objectives 
 
         rockSamples = 4;
@@ -71,20 +73,23 @@ public class GameManager : MonoBehaviour
     IEnumerator PowerUpCountdown()
     {
         yield return new WaitForSeconds(60);
-        print(health);
-        hasPowerUp = false;
+        
+       
+        healthBuffUI.SetActive(false);
         powerIndicator.SetActive(false);
         health = health - 30;
+        Health();
     }
     private void OnTriggerEnter(Collider other)
     {
 
         if (other.CompareTag("health"))
         {
-            hasPowerUp = true;
+            
             Destroy(other.gameObject);
 
             powerIndicator.SetActive(true);
+            healthBuffUI.SetActive(true);
             health = health + 30;
             Health();
 
@@ -109,8 +114,15 @@ public class GameManager : MonoBehaviour
             health = 0;
             Health();
         }
+        if (other.gameObject.CompareTag("Boss Projectile"))
+        {
+            print("hit by boss");
+            int randomDMG = Random.Range(10, 15);
+            health = health - randomDMG;
+            Health();
+        }
         //player interaction with ememy or hazards
-        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard"))
+        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard") || other.gameObject.CompareTag("Boss"))
         {
             //random damage occurs when player touches enemy/hazard
             damagePSystem.Play();
@@ -119,10 +131,14 @@ public class GameManager : MonoBehaviour
             Health();
 
             //player jumps(moves) backwards to avoid constant damage (damage sound plays)
-            if (other.gameObject.CompareTag("enemy"))
+            if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("Boss"))
             {
                 transform.Translate(Vector3.forward * -3);
                 asPlayer.PlayOneShot(damageSound, 1.0f);
+            }
+            if (other.gameObject.CompareTag("hazard"))
+            {
+                Destroy(other.gameObject);
             }
 
             //gameManager.PositionPlayer();   respawn player not implemented
