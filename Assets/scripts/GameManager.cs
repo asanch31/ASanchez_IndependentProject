@@ -13,11 +13,14 @@ public class GameManager : MonoBehaviour
 {
     //collect items and finish and health variables
     private int key;
-    private int finish;
-    public int health;
-    private int maxHealth =30;
+    private bool finish;
+    public float health;
+    private float maxHealth =30;
     private int mxHealthBoost = 10;
-    public int rockSamples = 4;
+
+    //how many samples need to be found
+
+    public int rockSamples;
 
     //display player health
     public Image healthBar;
@@ -27,9 +30,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI FindText;
     public GameObject findKey;
-    public GameObject foundKey;
+    public GameObject finishObj;
+    public GameObject findBossKey;
     public GameObject Lose;
     public GameObject Win;
+
+    //last key/boss key
+    public GameObject LastKey;
+    private bool bossKey;
 
     public bool winCondition = false;
     public GameObject ship;
@@ -57,15 +65,14 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         // Set the objectives 
-
-        rockSamples = 4;
-        finish = 0;
+        rockSamples = GameObject.FindGameObjectsWithTag("key").Length;
+        
+        finish = false;
 
 
         //GUI
-        FindKeyText();
+        FoundKey();
         Health();
 
 
@@ -74,8 +81,11 @@ public class GameManager : MonoBehaviour
         // Set the text property of the Win Text UI to an empty string, making the 'You Win' (game over message) blank
 
         //findKey.SetActive(true);
+        LastKey.SetActive(false);
+        bossKey = false;
         Lose.SetActive(false);
-        foundKey.SetActive(false);
+        finishObj.SetActive(false);
+        findBossKey.SetActive(false);
         Win.SetActive(false);
 
     }
@@ -112,9 +122,12 @@ public class GameManager : MonoBehaviour
                 healthBuffUI.SetActive(true);
 
             }
+
+            //maxHealth receives small boost with each potion, boost is permanent
             maxHealth = maxHealth + mxHealthBoost;
             Health();
 
+            //start timer for how long powerup last
             StartCoroutine(PowerUpCountdown());
 
         }
@@ -122,20 +135,32 @@ public class GameManager : MonoBehaviour
         if (other.gameObject.CompareTag("key"))
         {
             other.gameObject.SetActive(false);
-            // Add one to the score variable 'rocksamples'
+            // subtract one to the score variable 'rocksamples'
             rockSamples--;
+            
 
 
 
             // Run the 'SetCountText()' function (see below)
-            FindKeyText();
+            FoundKey();
         }
+        if (other.gameObject.CompareTag("bossKey"))
+        {
+            other.gameObject.SetActive(false);
+            bossKey = true;
+            findBossKey.SetActive(false);
+            FoundKey();
+        }
+
+        //if player falls off map player dies
         if (other.gameObject.CompareTag("Death"))
         {
-
             health = 0;
             Health();
         }
+
+        //if player gets hit by Boss projectile dmg is received
+        // boss does more dmg than regular enemy
         if (other.gameObject.CompareTag("Boss Projectile"))
         {
             
@@ -143,8 +168,9 @@ public class GameManager : MonoBehaviour
             health = health - randomDMG;
             Health();
         }
-        //player interaction with ememy or hazards
-        if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("hazard") || other.gameObject.CompareTag("Boss"))
+        //player interaction with ememy or hazards or boss
+        if (other.gameObject.CompareTag("enemy") || 
+            other.gameObject.CompareTag("hazard") || other.gameObject.CompareTag("Boss"))
         {
             //random damage occurs when player touches enemy/hazard
             damagePSystem.Play();
@@ -158,6 +184,7 @@ public class GameManager : MonoBehaviour
                 transform.Translate(Vector3.forward * -3);
                 asPlayer.PlayOneShot(damageSound, 1.0f);
             }
+            // destroy non-enemy objects that hits player
             if (other.gameObject.CompareTag("hazard"))
             {
                 Destroy(other.gameObject);
@@ -165,6 +192,8 @@ public class GameManager : MonoBehaviour
 
             //gameManager.PositionPlayer();   respawn player not implemented
         }
+
+        //finsh objective (return to ship)
         if (other.gameObject.CompareTag("ship"))
         {
             FoundFinish();
@@ -178,35 +207,52 @@ public class GameManager : MonoBehaviour
 
 
     }
-    void FindKeyText()
-    {
 
-        if (rockSamples == 0)
+    //what happens when player finds key/rocksample
+    void FoundKey()
+    {
+       
+        //if all rock samples are found (0 are left)
+        if (rockSamples == 0 && bossKey == true)
+        {
+
+            
+            // if found all objective play text message
+           
+            finishObj.SetActive(true);
+
+            //change sample text to blank
+            FindText.text = "";
+
+            //Player now has finsih objective
+            finish = true;
+            
+        }
+        if (rockSamples == 0 && bossKey == false)
         {
             // if found all objective play text message
-            FindText.text = "";
-            foundKey.SetActive(true);
-
-            finish = finish + 1;
+            FindText.text = "Samples Left: " + rockSamples.ToString();
+            findBossKey.SetActive(true);
 
         }
 
         //else display objective (find rock samples)
-        else
+        else if(rockSamples !=0 && bossKey ==false)
         {
-            foundKey.SetActive(false);
+            
             FindText.text = "Samples Left: " + rockSamples.ToString();
+
         }
 
     }
     void FoundFinish()
     {
         // if found objectives (keys) and health >0 toggle win trigger
-        if (rockSamples == 0 && health > 0)
+        if (finish==true && health > 0 )
         {
 
             Win.SetActive(true);
-            foundKey.SetActive(false);
+            finishObj.SetActive(false);
             shipjets.Play();
             winCondition = true;
 
@@ -219,7 +265,7 @@ public class GameManager : MonoBehaviour
         //else display objectives left
         else
         {
-
+            
             FindText.text = "Samples Left: " + rockSamples.ToString();
 
         }
@@ -230,13 +276,19 @@ public class GameManager : MonoBehaviour
     //No: player is Dead (play sound effect)
     void Health()
     {
+        healthBar.fillAmount = health / maxHealth;
+        
         healthText.text = "Health: " + health.ToString();
+
+        //player is dead
         if (health <= 0)
         {
             deathPSystem.Play();
             asPlayer.PlayOneShot(deathSound, 1.0f);
             Lose.SetActive(true);
             gameOver = true;
+
+
 
         }
     }
@@ -245,6 +297,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //don't display buff Icon if health < max health
         if (health < maxHealth)
         {
             healthBuffUI.SetActive(false);

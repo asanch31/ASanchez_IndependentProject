@@ -4,6 +4,9 @@ using UnityEngine.AI;
 
 public class enemyController : MonoBehaviour
 {
+    //control enemy 
+    //script for enemy AI 
+    // script used https://www.youtube.com/watch?v=xppompv1DBg by Brackeys
     private enemyStats dead;
 
     private Animator enemyPlayer;

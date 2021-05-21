@@ -4,6 +4,10 @@ using UnityEngine.AI;
 
 public class bossController : MonoBehaviour
 {
+    //Controller to control boss actions
+
+    //script for enemy AI 
+    // script used https://www.youtube.com/watch?v=xppompv1DBg by Brackeys
     private enemyStats dead;
 
     private Animator enemyPlayer;
@@ -13,7 +17,7 @@ public class bossController : MonoBehaviour
     public Transform player;
 
     public LayerMask whatIsGround, whatIsPlayer;
-
+    // what is enemy shooting/throwing
     public GameObject projectile;
 
     private float minTorque = -10f;
@@ -80,7 +84,7 @@ public class bossController : MonoBehaviour
             AttackPlayer();
     }
 
-
+    //enemy moves when player in not in sight
     private void Patroling()
     {
 
@@ -96,7 +100,7 @@ public class bossController : MonoBehaviour
             walkPointSet = false;
     }
 
-
+    //finds walking points
     private void SearchWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -110,12 +114,15 @@ public class bossController : MonoBehaviour
 
         }
     }
+
+    //follow player when in range
     private void ChasePlayer()
     {
 
         agent.SetDestination(player.position);
     }
 
+    // attack player in range
     private void AttackPlayer()
     {
 
@@ -133,14 +140,14 @@ public class bossController : MonoBehaviour
         }
     }
 
-
+    //cooldown of player attack
     private void ResetAttack()
     {
         alreadyAttacked = false;
         enemyPlayer.SetBool("attack", false);
 
     }
-
+    //slowdown attack to align with animation
     IEnumerator attackAnim()
     {
         yield return new WaitForSeconds(timeBetweenAttacks);

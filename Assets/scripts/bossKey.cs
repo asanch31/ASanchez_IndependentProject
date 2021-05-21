@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class bossKey : MonoBehaviour
 {
-
+    // script to have last key follow the boss
     public GameObject boss;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+   
     void Update()
     {
         
