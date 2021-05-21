@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LastKey : MonoBehaviour
+public class bossKey : MonoBehaviour
 {
+
     public GameObject boss;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +15,7 @@ public class LastKey : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = boss.transform.position;   
+        
+        transform.position = boss.transform.position;
     }
 }

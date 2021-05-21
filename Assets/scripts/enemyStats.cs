@@ -73,12 +73,12 @@ public class enemyStats : MonoBehaviour
 
         if (hiDif == 3 || hiDif == 2)
         {
-            health = health + 3;
+            health = health + 5;
             fullHealth = fullHealth + 3;
         }
         if (hiDif == 1)
         {
-            health = health + 5;
+            health = health + 10;
             fullHealth = fullHealth + 5;
         }
         Health();

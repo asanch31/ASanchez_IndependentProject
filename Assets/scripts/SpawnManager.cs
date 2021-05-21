@@ -5,27 +5,32 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemyPrefab;
     //public GameObject powerUpPrefab;
 
-    private float spawnRange = 8.5f;
+    private float spawnRange = 6f;
     private int enemyCount;
-    private int waveNum = 1;
+    public int waveNum = 0;
     public int maxWaves;
+    public bool waveCompleted= false;
 
-
+    private BossStats boss;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnWave(waveNum);
+        boss = GameObject.Find("Boss").GetComponent<BossStats>();
+        
     }
 
     void SpawnWave(int enemyNum)
     {
 
-        //Instantiate(powerUpPrefab, GenerateSpawnPosition(), powerUpPrefab.transform.rotation);
-        for (int i = 0; i < enemyNum; i++)
-        {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+            
+            for (int i = 0; i < enemyNum; i++)
+            {
+                Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation);
+                waveCompleted = false;
         }
+
+
     }
     Vector3 GenerateSpawnPosition()
     {
@@ -40,10 +45,14 @@ public class SpawnManager : MonoBehaviour
     {
 
         enemyCount = FindObjectsOfType<MinionStats>().Length;
+        
         if (enemyCount == 0 && waveNum < maxWaves)
         {
+            waveCompleted = true;
             waveNum++;
             SpawnWave(waveNum);
+            
+            boss.LoseHealth();
         }
     }
 }

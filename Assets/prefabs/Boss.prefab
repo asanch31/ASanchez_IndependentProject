@@ -293,9 +293,9 @@ GameObject:
   - component: {fileID: 1317820940139888945}
   - component: {fileID: 1317820940139888944}
   - component: {fileID: 1317820940139888947}
+  - component: {fileID: 1317820940139888950}
   - component: {fileID: 5127638956813410860}
   - component: {fileID: 1317820940139888949}
-  - component: {fileID: 1317820940139888950}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -405,6 +405,21 @@ MonoBehaviour:
   health: 20
   dead: 0
   healthBar: {fileID: 1317820939248709327}
+--- !u!114 &1317820940139888950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317897092514602298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f8c18790d52404e875b2ed03bd1c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 5248272347297281642, guid: 5ee115a21e91ed54fb6f7513e5e03f31,
+    type: 3}
+  maxWaves: 4
 --- !u!114 &5127638956813410860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,21 +474,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1317820940139888950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1317897092514602298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8f8c18790d52404e875b2ed03bd1c29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 5248272347297281642, guid: 5ee115a21e91ed54fb6f7513e5e03f31,
-    type: 3}
-  maxWaves: 4
 --- !u!1 &1317911990656606136
 GameObject:
   m_ObjectHideFlags: 0

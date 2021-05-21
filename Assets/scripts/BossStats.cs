@@ -8,7 +8,7 @@ public class BossStats : MonoBehaviour
     private SpawnManager difficulty;
     private int minionCount;
 
-    private int waveNum = 0;
+    private int waveNum;
 
     private float fullHealth;
     public float health=20;
@@ -19,6 +19,7 @@ public class BossStats : MonoBehaviour
     private float healthBossMult;
 
     public Image healthBar;
+    public GameObject rockSample;
 
 
     // Start is called before the first frame update
@@ -30,7 +31,7 @@ public class BossStats : MonoBehaviour
         difficulty = GameObject.Find("Boss").GetComponent<SpawnManager>();
         animEnemy = gameObject.GetComponentInChildren<Animator>();
 
-       
+
         healthBossMult = health;
         health = healthBossMult * difficulty.maxWaves+ health;
         fullHealth = health;
@@ -41,12 +42,11 @@ public class BossStats : MonoBehaviour
     void Update()
     {
         minionCount = FindObjectsOfType<MinionStats>().Length;
+       
         
-        
-        if (minionCount ==0 && waveNum != difficulty.maxWaves)
+        if (minionCount ==0 && waveNum < difficulty.maxWaves)
         {
-
-            LoseHealth();
+            LoseHealth();     
         }
 
     }
@@ -77,17 +77,15 @@ public class BossStats : MonoBehaviour
 
     }
 
-    void LoseHealth()
+   public void LoseHealth()
     {
-        waveNum++;
-        if (minionCount == 0)
+        if (difficulty.waveNum > 1)
         {
+            
             health = health - healthBossMult;
             Health();
         }
         
-
-
     }
     void Health()
     {
@@ -96,9 +94,7 @@ public class BossStats : MonoBehaviour
         {
             animEnemy.SetBool("death", true);
             dead = true;
-
             
-
             StartCoroutine(DeathAnim());
 
 
@@ -107,7 +103,9 @@ public class BossStats : MonoBehaviour
     IEnumerator DeathAnim()
     {
         yield return new WaitForSeconds(2);
-        Destroy(gameObject);
+        rockSample.SetActive(true);
+        gameObject.SetActive(false);
+        
 
     }
 }

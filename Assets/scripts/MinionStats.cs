@@ -66,17 +66,11 @@ public class MinionStats : MonoBehaviour
     }
     void Health()
     {
-        print("Enemy Health = " + health);
         if (health <= 0)
         {
             animEnemy.SetBool("death", true);
-            dead = true;
-
-            print("enemy is dead " + dead);
-
+            dead = true;         
             StartCoroutine(DeathAnim());
-
-
         }
     }
     IEnumerator DeathAnim()

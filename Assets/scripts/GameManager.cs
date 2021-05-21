@@ -1,19 +1,29 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 
 //script where game is managed and controlled
 // player has to find keys(rock samples) and safely leave
 // player has health and can be damaged by enemies and asteroids
+
+    //controls player health
 {
     //collect items and finish and health variables
     private int key;
     private int finish;
     public int health;
+    private int maxHealth =30;
+    private int mxHealthBoost = 10;
     public int rockSamples = 4;
 
+    //display player health
+    public Image healthBar;
+
+
+    //Ui elements and objectives
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI FindText;
     public GameObject findKey;
@@ -22,7 +32,6 @@ public class GameManager : MonoBehaviour
     public GameObject Win;
 
     public bool winCondition = false;
-
     public GameObject ship;
 
 
@@ -55,7 +64,7 @@ public class GameManager : MonoBehaviour
         finish = 0;
 
 
-
+        //GUI
         FindKeyText();
         Health();
 
@@ -70,27 +79,40 @@ public class GameManager : MonoBehaviour
         Win.SetActive(false);
 
     }
+
+    //buff activates for 60 seconds
     IEnumerator PowerUpCountdown()
     {
         yield return new WaitForSeconds(60);
         
-       
+       //health inc for 60 secs if potion buff is acquired
+       //after 60 secs stats return to maxHealth if health has more than maxhealth
         healthBuffUI.SetActive(false);
         powerIndicator.SetActive(false);
-        health = health - 30;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
         Health();
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        //if player interacts with health potion
         if (other.CompareTag("health"))
         {
             
             Destroy(other.gameObject);
 
             powerIndicator.SetActive(true);
-            healthBuffUI.SetActive(true);
-            health = health + 30;
+            //increase health 
+            health = health + maxHealth/2;
+            //if health goes above maxhealth turn on Buff icon
+            if (health > maxHealth)
+            {
+                healthBuffUI.SetActive(true);
+
+            }
+            maxHealth = maxHealth + mxHealthBoost;
             Health();
 
             StartCoroutine(PowerUpCountdown());
@@ -116,7 +138,7 @@ public class GameManager : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Boss Projectile"))
         {
-            print("hit by boss");
+            
             int randomDMG = Random.Range(10, 15);
             health = health - randomDMG;
             Health();
@@ -223,7 +245,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health < maxHealth)
+        {
+            healthBuffUI.SetActive(false);
 
+        }
     }
 
 }
