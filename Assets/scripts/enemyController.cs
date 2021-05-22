@@ -4,6 +4,9 @@ using UnityEngine.AI;
 
 public class enemyController : MonoBehaviour
 {
+
+    //
+    private GameManager playerAlive;
     //control enemy 
     //script for enemy AI 
     // script used https://www.youtube.com/watch?v=xppompv1DBg by Brackeys
@@ -60,6 +63,7 @@ public class enemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAlive = GameObject.Find("Player").GetComponent<GameManager>();
         enemyPlayer = gameObject.GetComponentInChildren<Animator>();
         dead = gameObject.GetComponentInChildren<enemyStats>();
 
@@ -68,12 +72,18 @@ public class enemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (playerAlive.gameOver == true)
+        {
+            playerInAttackRange = false;
+            playerInSight = false;
+        }
 
         // check for player and if in range
-        playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
+        if (playerAlive.gameOver == false)
+        {
+            playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        }
 
         if (!playerInSight && !playerInAttackRange && enemyDead == false)
             Patroling();
@@ -115,24 +125,28 @@ public class enemyController : MonoBehaviour
     }
     private void ChasePlayer()
     {
-
-        agent.SetDestination(player.position);
+        if (playerAlive.gameOver == false)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     private void AttackPlayer()
     {
-
-        agent.SetDestination(transform.position);
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (playerAlive.gameOver == false)
         {
-            alreadyAttacked = true;
-            enemyPlayer.SetBool("attack", true);
+            agent.SetDestination(transform.position);
+            transform.LookAt(player);
+
+            if (!alreadyAttacked)
+            {
+                alreadyAttacked = true;
+                enemyPlayer.SetBool("attack", true);
 
 
-            StartCoroutine(attackAnim());
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                StartCoroutine(attackAnim());
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     //controls player health
 {
     //collect items and finish and health variables
-    private int key;
+    
     private bool finish;
     public float health;
     private float maxHealth =30;
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public GameObject ship;
 
 
-    //add finishing element not implemented yet
+  
     // public GameObject finishKey;
 
     public bool gameOver = false;
@@ -65,22 +65,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Set the objectives 
+        // Set the objectives/find number of total objectives
         rockSamples = GameObject.FindGameObjectsWithTag("key").Length;
         
         finish = false;
 
-
-        //GUI
+        //objectives
         FoundKey();
+        //Player health
         Health();
 
 
         asPlayer = GetComponent<AudioSource>();
 
         // Set the text property of the Win Text UI to an empty string, making the 'You Win' (game over message) blank
-
-        //findKey.SetActive(true);
         LastKey.SetActive(false);
         bossKey = false;
         Lose.SetActive(false);
@@ -257,7 +255,7 @@ public class GameManager : MonoBehaviour
             winCondition = true;
 
 
-            //
+            //level 2 if implemented
             //gameManager.Level1();
             //SceneManager.LoadScene(1);
         }

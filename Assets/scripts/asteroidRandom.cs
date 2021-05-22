@@ -6,8 +6,8 @@ public class asteroidRandom : MonoBehaviour
 
     //spawn asteroids over the map in random locations
     public GameObject[] asteroidPrefab;
-    private float SpawnX = 250;
-    private float SpawnZ = 250;
+    private float SpawnX = 350;
+    private float SpawnZ = 300;
     private float SpawnY = 50;
 
     private float randomNum = 8;
@@ -16,8 +16,11 @@ public class asteroidRandom : MonoBehaviour
     void Start()
     {
         InvokeRepeating("SpawnAsteroid", 1f, 1f);
-        InvokeRepeating("SpawnAsteroid", 1f, 1f);
-        InvokeRepeating("SpawnAsteroid", 1f, 1f);
+        InvokeRepeating("SpawnAsteroid", 1f, .9f);
+        InvokeRepeating("SpawnAsteroid", 1f, .85f);
+        InvokeRepeating("SpawnAsteroid", 1f, 1.3f);
+        InvokeRepeating("SpawnAsteroid", 1f, 1.2f);
+        InvokeRepeating("SpawnAsteroid", 1f, 1.6f);
 
     }
 
@@ -36,7 +39,7 @@ public class asteroidRandom : MonoBehaviour
         GameObject asteroid = Instantiate(asteroidPrefab[asteroidPrefabIndex], randPos, asteroidPrefab[asteroidPrefabIndex].transform.rotation);
         asteroid.transform.localScale = new Vector3(scale, scale, scale);
 
-        Destroy(asteroid.gameObject, 4f);
+        Destroy(asteroid.gameObject, 10f);
     }
 
     //when asteroid collides with other objects asteroid is destroyed

@@ -6,6 +6,8 @@ public class bossController : MonoBehaviour
 {
     //Controller to control boss actions
 
+    private GameManager playerAlive;
+
     //script for enemy AI 
     // script used https://www.youtube.com/watch?v=xppompv1DBg by Brackeys
     private enemyStats dead;
@@ -61,6 +63,7 @@ public class bossController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerAlive = GameObject.Find("Player").GetComponent<GameManager>();
         enemyPlayer = gameObject.GetComponentInChildren<Animator>();
         dead = gameObject.GetComponentInChildren<enemyStats>();
 
@@ -69,12 +72,19 @@ public class bossController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (playerAlive.gameOver == true)
+        {
+            playerInAttackRange = false;
+            playerInSight = false;
+        }
 
         // check for player and if in range
-        playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
+        if (playerAlive.gameOver == false)
+        {
+            // check for player and if in range
+            playerInSight = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+        }
 
         if (!playerInSight && !playerInAttackRange && enemyDead == false)
             Patroling();
@@ -117,26 +127,30 @@ public class bossController : MonoBehaviour
 
     //follow player when in range
     private void ChasePlayer()
-    {
-
-        agent.SetDestination(player.position);
+    {if (playerAlive.gameOver == false)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     // attack player in range
     private void AttackPlayer()
     {
 
-        agent.SetDestination(transform.position);
-        transform.LookAt(player);
-
-        if (!alreadyAttacked)
+        if (playerAlive.gameOver == false)
         {
-            alreadyAttacked = true;
+            agent.SetDestination(transform.position);
+            transform.LookAt(player);
+
+            if (!alreadyAttacked)
+            {
+                alreadyAttacked = true;
+                enemyPlayer.SetBool("attack", true);
 
 
-            enemyPlayer.SetBool("attack", true);
-            StartCoroutine(attackAnim());
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                StartCoroutine(attackAnim());
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
         }
     }
 
