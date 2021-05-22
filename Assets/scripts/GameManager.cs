@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private bool finish;
     public float health;
     private float maxHealth =30;
-    private int mxHealthBoost = 5;
+    private int mxHealthBoost = 5 ;
 
     //how many samples need to be found
 
