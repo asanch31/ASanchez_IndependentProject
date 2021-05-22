@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private bool finish;
     public float health;
     private float maxHealth =30;
-    private int mxHealthBoost = 10;
+    private int mxHealthBoost = 5;
 
     //how many samples need to be found
 
@@ -103,13 +103,22 @@ public class GameManager : MonoBehaviour
         }
         Health();
     }
+    IEnumerator respawnBuff(GameObject buff)
+    {
+        //respan ammo box after 100 seconds
+        yield return new WaitForSeconds(10);
+        buff.gameObject.SetActive(true);
+
+    }
+    //player interaction with other objects
     private void OnTriggerEnter(Collider other)
     {
         //if player interacts with health potion
         if (other.CompareTag("health"))
         {
-            
-            Destroy(other.gameObject);
+
+            other.gameObject.SetActive(false);
+            StartCoroutine(respawnBuff(other.gameObject));
 
             powerIndicator.SetActive(true);
             //increase health 
@@ -166,26 +175,32 @@ public class GameManager : MonoBehaviour
             health = health - randomDMG;
             Health();
         }
-        //player interaction with ememy or hazards or boss
-        if (other.gameObject.CompareTag("enemy") || 
-            other.gameObject.CompareTag("hazard") || other.gameObject.CompareTag("Boss"))
-        {
-            //random damage occurs when player touches enemy/hazard
-            damagePSystem.Play();
-            int randomDMG = Random.Range(2, 8);
-            health = health - randomDMG;
-            Health();
+        
+            //player interaction with ememy or hazards or boss
+            if (other.gameObject.CompareTag("enemy") ||
+                other.gameObject.CompareTag("hazard") || other.gameObject.CompareTag("Boss"))
 
-            //player jumps(moves) backwards to avoid constant damage (damage sound plays)
-            if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("Boss"))
             {
-                transform.Translate(Vector3.forward * -3);
-                asPlayer.PlayOneShot(damageSound, 1.0f);
-            }
-            // destroy non-enemy objects that hits player
-            if (other.gameObject.CompareTag("hazard"))
+            //check to see if player is alive
+            if (gameOver == false)
             {
-                Destroy(other.gameObject);
+                //random damage occurs when player touches enemy/hazard
+                damagePSystem.Play();
+                int randomDMG = Random.Range(2, 8);
+                health = health - randomDMG;
+                Health();
+
+                //player jumps(moves) backwards to avoid constant damage (damage sound plays)
+                if (other.gameObject.CompareTag("enemy") || other.gameObject.CompareTag("Boss"))
+                {
+                    transform.Translate(Vector3.forward * -3);
+                    asPlayer.PlayOneShot(damageSound, 1.0f);
+                }
+                // destroy non-enemy objects that hits player
+                if (other.gameObject.CompareTag("hazard"))
+                {
+                    Destroy(other.gameObject);
+                }
             }
 
             //gameManager.PositionPlayer();   respawn player not implemented
@@ -279,7 +294,7 @@ public class GameManager : MonoBehaviour
         healthText.text = "Health: " + health.ToString();
 
         //player is dead
-        if (health <= 0)
+        if (health <= 0 && gameOver == false)
         {
             deathPSystem.Play();
             asPlayer.PlayOneShot(deathSound, 1.0f);
