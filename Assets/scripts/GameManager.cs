@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Set the objectives/find number of total objectives
-        rockSamples = GameObject.FindGameObjectsWithTag("key").Length;
+        
         
         finish = false;
 
@@ -89,27 +90,7 @@ public class GameManager : MonoBehaviour
     }
 
     //buff activates for 60 seconds
-    IEnumerator PowerUpCountdown()
-    {
-        yield return new WaitForSeconds(60);
-        
-       //health inc for 60 secs if potion buff is acquired
-       //after 60 secs stats return to maxHealth if health has more than maxhealth
-        healthBuffUI.SetActive(false);
-        powerIndicator.SetActive(false);
-        if (health > maxHealth)
-        {
-            health = maxHealth;
-        }
-        Health();
-    }
-    IEnumerator respawnBuff(GameObject buff)
-    {
-        //respan ammo box after 100 seconds
-        yield return new WaitForSeconds(10);
-        buff.gameObject.SetActive(true);
-
-    }
+    
     //player interaction with other objects
     private void OnTriggerEnter(Collider other)
     {
@@ -241,7 +222,7 @@ public class GameManager : MonoBehaviour
             finish = true;
             
         }
-        if (rockSamples == 0 && bossKey == false)
+        else if (rockSamples == 0 && bossKey == false)
         {
             // if found all objective play text message
             FindText.text = "Samples Left: " + rockSamples.ToString();
@@ -250,7 +231,7 @@ public class GameManager : MonoBehaviour
         }
 
         //else display objective (find rock samples)
-        else if(rockSamples !=0 && bossKey ==false)
+        else 
         {
             
             FindText.text = "Samples Left: " + rockSamples.ToString();
@@ -264,11 +245,13 @@ public class GameManager : MonoBehaviour
         if (finish==true && health > 0 )
         {
 
-            Win.SetActive(true);
+            
             finishObj.SetActive(false);
             shipjets.Play();
             winCondition = true;
 
+
+            StartCoroutine(WinScreen());
 
             //level 2 if implemented
             //gameManager.Level1();
@@ -301,15 +284,49 @@ public class GameManager : MonoBehaviour
             Lose.SetActive(true);
             gameOver = true;
 
+            StartCoroutine(DeathScreen());
+
 
 
         }
     }
+    IEnumerator PowerUpCountdown()
+    {
+        yield return new WaitForSeconds(60);
 
+        //health inc for 60 secs if potion buff is acquired
+        //after 60 secs stats return to maxHealth if health has more than maxhealth
+        healthBuffUI.SetActive(false);
+        powerIndicator.SetActive(false);
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+        Health();
+    }
+    IEnumerator respawnBuff(GameObject buff)
+    {
+        //respan ammo box after 100 seconds
+        yield return new WaitForSeconds(10);
+        buff.gameObject.SetActive(true);
+
+    }
+    IEnumerator WinScreen()
+    {
+        yield return new WaitForSeconds(2);
+        Win.SetActive(true);
+    }
+    IEnumerator DeathScreen()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(2);
+    }
 
     // Update is called once per frame
     void Update()
     {
+        rockSamples = GameObject.FindGameObjectsWithTag("key").Length + GameObject.FindGameObjectsWithTag("bossKey").Length;
+        FoundKey();
         //don't display buff Icon if health < max health
         if (health < maxHealth)
         {

@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &21346149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +328,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -458,6 +461,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -480,6 +485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &28732738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1781,6 +1787,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -1803,6 +1811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &79340897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3389,6 +3398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1000
   dead: 0
+  healthBar: {fileID: 0}
+  rockSample: {fileID: 0}
 --- !u!114 &172411947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3411,6 +3422,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 2
   timeBetweenAttacks: 4
@@ -3455,7 +3468,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 5248272347297281642, guid: 5ee115a21e91ed54fb6f7513e5e03f31,
     type: 3}
+  waveNum: 0
   maxWaves: 4
+  waveCompleted: 0
 --- !u!1001 &174874642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6376,6 +6391,8 @@ MonoBehaviour:
   dmg: 1
   dmg2: 2
   powerIndicator: {fileID: 1587949708}
+  dmgBuffUI: {fileID: 0}
+  gunText: {fileID: 0}
 --- !u!114 &355484197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6410,12 +6427,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 30
   rockSamples: 0
+  healthBar: {fileID: 0}
   healthText: {fileID: 1711825632}
   FindText: {fileID: 1664736039}
   findKey: {fileID: 1664736037}
-  foundKey: {fileID: 2040181598}
+  finishObj: {fileID: 0}
+  findBossKey: {fileID: 0}
   Lose: {fileID: 1147322824}
   Win: {fileID: 896581252}
+  LastKey: {fileID: 0}
   winCondition: 0
   ship: {fileID: 1691627531}
   gameOver: 0
@@ -6425,6 +6445,7 @@ MonoBehaviour:
   damageSound: {fileID: 8300000, guid: 69e163812bf531e4da9c4726c0c1540a, type: 3}
   deathSound: {fileID: 8300000, guid: 429b90638b27aaf4fb36c6152c1e8764, type: 3}
   powerIndicator: {fileID: 1587949708}
+  healthBuffUI: {fileID: 0}
 --- !u!1001 &370129223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27734,6 +27755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &956124620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27756,6 +27778,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 4
   timeBetweenAttacks: 2
@@ -27881,6 +27905,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 2
@@ -27903,6 +27929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &956553065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28399,6 +28426,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -28421,6 +28450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1063278296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50384,6 +50414,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 4
   timeBetweenAttacks: 2
@@ -50406,6 +50438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1419204560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57999,6 +58032,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -58021,6 +58056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1550596392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75021,6 +75057,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -75043,6 +75081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1885811890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75375,6 +75414,8 @@ MonoBehaviour:
     m_Bits: 512
   projectile: {fileID: 401617329655287134, guid: d8f46822cc4cb5a43b4c6c14bc3abae8,
     type: 3}
+  heightAttack: 1
+  attackZpos: 1
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   timeBetweenAttacks: 2
@@ -75397,6 +75438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   dead: 0
+  healthBar: {fileID: 0}
 --- !u!114 &1986009435
 MonoBehaviour:
   m_ObjectHideFlags: 0
