@@ -6381,6 +6381,7 @@ MonoBehaviour:
   - {fileID: -7113848142892579486, guid: 0d404adc61caba643a709e0cd13c3b80, type: 3}
   - {fileID: 5092798184899428853, guid: 8440af34a7b0ac74aa93bf22064ac0bb, type: 3}
   - {fileID: 173547420546407436, guid: 49479f819fefa6f4099961a8abbabf09, type: 3}
+  bulletIndex: 0
   ammo: 25
   ammoText: {fileID: 1403010379}
   ShotSound:
@@ -6388,10 +6389,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4a5b2902dd60fa74b9e39d3f2a51cc12, type: 3}
   - {fileID: 8300000, guid: 50c9a3855aa5e7f43b489afa1f52a330, type: 3}
   emptyAmmo: {fileID: 8300000, guid: 170110c2dcafd594ba608e3c24cbe04a, type: 3}
+  pickDmg: 1
   dmg: 1
   dmg2: 2
   powerIndicator: {fileID: 1587949708}
   dmgBuffUI: {fileID: 0}
+  pickAxe: {fileID: 0}
+  weapon: {fileID: 0}
   gunText: {fileID: 0}
 --- !u!114 &355484197
 MonoBehaviour:
@@ -6446,6 +6450,9 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 429b90638b27aaf4fb36c6152c1e8764, type: 3}
   powerIndicator: {fileID: 1587949708}
   healthBuffUI: {fileID: 0}
+  collectMineral: {fileID: 0}
+  collectTimer: {fileID: 0}
+  usePickAxe: {fileID: 0}
 --- !u!1001 &370129223
 PrefabInstance:
   m_ObjectHideFlags: 0

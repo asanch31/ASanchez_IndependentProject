@@ -35,6 +35,7 @@ public class BossStats : MonoBehaviour
         healthBossMult = health;
         health = healthBossMult * difficulty.maxWaves+ health;
         fullHealth = health;
+        print(health+"   " +fullHealth);
     }
 
 
@@ -42,12 +43,15 @@ public class BossStats : MonoBehaviour
     void Update()
     {
         minionCount = FindObjectsOfType<MinionStats>().Length;
-       
-        
-        if (minionCount ==0 && waveNum < difficulty.maxWaves)
+
+
+        if (minionCount == 0 && waveNum < 1)
         {
-            LoseHealth();     
+            print(waveNum + "   " + difficulty.maxWaves);
+            LoseHealth();
+            waveNum++;
         }
+
 
     }
 
@@ -81,7 +85,7 @@ public class BossStats : MonoBehaviour
     {
         if (difficulty.waveNum > 1)
         {
-            
+            print("losing health");
             health = health - healthBossMult;
             Health();
         }

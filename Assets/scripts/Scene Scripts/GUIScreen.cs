@@ -5,12 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class GUIScreen : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void QuitGame()
+    {
+        //Application.Quit();
+        print("Quit");
+    }
+    public void Revive()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
     public void Retry()
     {
-        SceneManager.LoadScene(1);
+       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+    }
     // Update is called once per frame
     public void MainMenuReturn()
     {

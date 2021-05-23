@@ -10,22 +10,28 @@ public class gun : MonoBehaviour
 
     public float bulletSpeed = 10;
     public Rigidbody[] bulletPrefab;
-    private string [] gunEquip=new string[] { "Pistol", "Rifle", "Shotgun" } ;
+    private string [] gunEquip=new string[] { "Pistol", "Rifle", "Shotgun","PickAxe" } ;
     
-    int bulletIndex = 0;
+    public int bulletIndex = 0;
     public int ammo = 25;
+    private int maxAmmo = 200;
     public TextMeshProUGUI ammoText;
 
     private AudioSource gunAudio;
     public AudioClip[] ShotSound;
     public AudioClip emptyAmmo;
-
+    public int pickDmg = 1;
     public int dmg = 1;
     public int dmg2 = 2;
+    private int dmgBoost = 1;
+    private int dmgBuff = 2;
 
     //powerup var
     public GameObject powerIndicator;
     public GameObject dmgBuffUI;
+
+    public GameObject pickAxe;
+    public GameObject weapon;
 
 
     public TextMeshProUGUI gunText; 
@@ -49,8 +55,21 @@ public class gun : MonoBehaviour
 
     void Fire()
     {
-        //if player has ammo which bullet prefab is equiped
-        if (ammo > 0)
+        //if player has ammo which bullet prefab is equiped && pick is not equiped
+        if (ammo > 0 && bulletIndex !=0 && bulletIndex!=3)
+        {
+            Rigidbody bullet = Instantiate(bulletPrefab[bulletIndex], transform.position + (transform.forward) + (transform.up), Quaternion.identity);
+
+            bullet.velocity = transform.forward * bulletSpeed;
+            gunAudio.PlayOneShot(ShotSound[bulletIndex], 1.0f);
+
+            //Destroy bullet after 3 secs.
+            Destroy(bullet.gameObject, 3f);
+
+            ammo=ammo-3;
+            amountAmmo();
+        }
+        else if (ammo > 0 && bulletIndex == 0)
         {
             Rigidbody bullet = Instantiate(bulletPrefab[bulletIndex], transform.position + (transform.forward) + (transform.up), Quaternion.identity);
 
@@ -66,17 +85,21 @@ public class gun : MonoBehaviour
         //if no ammo play emplyclip sound when attempting to shot
         else
         {
+            
             gunAudio.PlayOneShot(emptyAmmo, 1.0f);
 
         }
     }
     IEnumerator PowerUpCountdown()
     {
-        yield return new WaitForSeconds(60);
+        yield return new WaitForSeconds(20);
 
         
         powerIndicator.SetActive(false);
         dmgBuffUI.SetActive(false);
+        dmg = dmg - dmgBuff ;
+
+        dmg2 = dmg2 - dmgBuff * 2;
     }
 
 
@@ -87,8 +110,9 @@ public class gun : MonoBehaviour
         {
            
             dmgBuffUI.SetActive(true);
-            dmg = dmg+2;
-            dmg2 = dmg2+3;
+            dmg = dmg+dmgBuff+dmgBoost;
+            
+            dmg2 = dmg2+dmgBuff*2+dmgBoost;
 
             other.gameObject.SetActive(false);
             StartCoroutine(respawnBuff(other.gameObject));
@@ -109,9 +133,9 @@ public class gun : MonoBehaviour
             ammo = ammo + ammoBox;
 
             //max ammo is 200
-            if (ammo > 200)
+            if (ammo > maxAmmo)
             {
-                ammo = 200;
+                ammo = maxAmmo;
             }
             amountAmmo();
 
@@ -125,7 +149,7 @@ public class gun : MonoBehaviour
     IEnumerator respawnBuff(GameObject box)
     {
         //respan ammo box after 100 seconds
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(60);
         box.gameObject.SetActive(true);
 
     }
@@ -141,14 +165,28 @@ public class gun : MonoBehaviour
     void Update()
 
     {
+        if (ammo < 0)
+        {
+            ammo = 0;
+        }
         //check to see if rifle is equiped
         if (bulletIndex == 1)
         {
-            gunText.text = "Equpied: " + gunEquip[bulletIndex] + " DMG:" + dmg2;
+            pickAxe.gameObject.SetActive(false);
+            weapon.gameObject.SetActive(true);
+            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg2;
+        }
+        else if(bulletIndex==3)
+        {
+            pickAxe.gameObject.SetActive(true);
+            weapon.gameObject.SetActive(false);
+            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + pickDmg;
         }
         else
         {
-            gunText.text = "Equpied: " + gunEquip[bulletIndex] + " DMG:" + dmg;
+            pickAxe.gameObject.SetActive(false);
+            weapon.gameObject.SetActive(true);
+            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg;
         }
         //rotate weapon by pressing right click (right mouse button) 
         //shot weapon with left click (left mouse button)

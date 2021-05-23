@@ -3,7 +3,7 @@
 public class CollisionDetect : MonoBehaviour
 {
 
-
+    //code not really used 
     //If two object collide (i.e. bullet and enemy} both object are destroyed
     // if player comes in contact with enemy player is moved backwards (in GameConditions more is added)
 
