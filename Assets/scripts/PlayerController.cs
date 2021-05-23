@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //if player dies or game ends particle system("dirt") stops and so does player
-        else if (playerCtrl.gameOver == true)
+        else if (playerCtrl.gameOver == true && playerCtrl.health <=0)
         {
             animPlayer.SetBool("death", true);
             dirtSystem.Stop();

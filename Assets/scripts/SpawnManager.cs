@@ -2,6 +2,7 @@
 
 public class SpawnManager : MonoBehaviour
 {
+    
     public GameObject enemyPrefab;
     //public GameObject powerUpPrefab;
 

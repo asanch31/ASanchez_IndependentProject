@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
 //controls player health
 {
+
+    public GameObject pauseMenu;
     //what weapon is player using
     private gun playerWeapon;
     //collect items and finish and health variables
@@ -102,8 +104,8 @@ public class GameManager : MonoBehaviour
         Win.SetActive(false);
         collectTimer.SetActive(false);
         usePickAxe.SetActive(false);
-
-}
+        pauseMenu.SetActive(false);
+    }
 
     //was sample collected
     public void CollectSample()
@@ -395,7 +397,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rockSamples = GameObject.FindGameObjectsWithTag("key").Length + GameObject.FindGameObjectsWithTag("bossKey").Length;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            pauseMenu.SetActive(true);
+            gameOver = true;
+        }
+                rockSamples = GameObject.FindGameObjectsWithTag("key").Length + GameObject.FindGameObjectsWithTag("bossKey").Length;
         FoundKey();
         //don't display buff Icon if health < max health
         if (health < maxHealth)
@@ -403,6 +410,17 @@ public class GameManager : MonoBehaviour
             healthBuffUI.SetActive(false);
 
         }
+    }
+    IEnumerator PauseScreen()
+    {
+        yield return new WaitForSeconds(1);
+        gameOver = false;
+    }
+    public void UnPauseGame()
+    {
+
+        pauseMenu.SetActive(false);
+        StartCoroutine(PauseScreen());
     }
 
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class gun : MonoBehaviour
 {
 
+    private GameManager playerCtrl;
 
 
     public float bulletSpeed = 10;
@@ -38,6 +39,8 @@ public class gun : MonoBehaviour
 
     void Start()
     {
+
+        playerCtrl = GameObject.Find("Player").GetComponent<GameManager>();
         amountAmmo();
         gunAudio = GetComponent<AudioSource>();
         
@@ -165,42 +168,45 @@ public class gun : MonoBehaviour
     void Update()
 
     {
-        if (ammo < 0)
+        if (playerCtrl.gameOver == false)
         {
-            ammo = 0;
-        }
-        //check to see if rifle is equiped
-        if (bulletIndex == 1)
-        {
-            pickAxe.gameObject.SetActive(false);
-            weapon.gameObject.SetActive(true);
-            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg2;
-        }
-        else if(bulletIndex==3)
-        {
-            pickAxe.gameObject.SetActive(true);
-            weapon.gameObject.SetActive(false);
-            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + pickDmg;
-        }
-        else
-        {
-            pickAxe.gameObject.SetActive(false);
-            weapon.gameObject.SetActive(true);
-            gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg;
-        }
-        //rotate weapon by pressing right click (right mouse button) 
-        //shot weapon with left click (left mouse button)
-        if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            bulletIndex++;
-            if (bulletIndex == bulletPrefab.Length)
+            if (ammo < 0)
             {
-                bulletIndex = 0;
+                ammo = 0;
             }
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-            Fire();
+            //check to see if rifle is equiped
+            if (bulletIndex == 1)
+            {
+                pickAxe.gameObject.SetActive(false);
+                weapon.gameObject.SetActive(true);
+                gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg2;
+            }
+            else if (bulletIndex == 3)
+            {
+                pickAxe.gameObject.SetActive(true);
+                weapon.gameObject.SetActive(false);
+                gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + pickDmg;
+            }
+            else
+            {
+                pickAxe.gameObject.SetActive(false);
+                weapon.gameObject.SetActive(true);
+                gunText.text = "Equiped: " + gunEquip[bulletIndex] + " DMG:" + dmg;
+            }
+            //rotate weapon by pressing right click (right mouse button) 
+            //shot weapon with left click (left mouse button)
+            if (Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                bulletIndex++;
+                if (bulletIndex == bulletPrefab.Length)
+                {
+                    bulletIndex = 0;
+                }
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+                Fire();
 
+        }
     }
 
 }
