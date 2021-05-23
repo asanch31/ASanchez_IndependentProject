@@ -12,7 +12,7 @@ public class GUIScreen : MonoBehaviour
     }
     public void QuitGame()
     {
-        //Application.Quit();
+        Application.Quit();
         print("Quit");
     }
     public void Revive()
